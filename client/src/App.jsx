@@ -18,11 +18,16 @@ function App() {
     setError(null);
     setResults(null);
 
+    console.log('Scanning...');
     try {
-      const response = await axios.post('http://localhost:5000/scan', { url });
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+      const response = await axios.post(`${apiUrl}/scan`, { url });
+      console.log('Scan complete');
       setResults(response.data);
     } catch (err) {
-      setError(err.response?.data?.error || 'Failed to scan the URL. Please try again.');
+      const errorMessage = err.response?.data?.error || 'Failed to scan the URL. Please try again.';
+      console.error('Scan failed');
+      setError(errorMessage);
     } finally {
       setLoading(false);
     }

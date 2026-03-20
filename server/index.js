@@ -10,8 +10,11 @@ app.use(express.json());
 app.post('/scan', async (req, res) => {
   const { url } = req.body;
   if (!url) {
+    console.error('Error: URL is required');
     return res.status(400).json({ error: 'URL is required' });
   }
+
+  console.log('Scanning URL:', url);
 
   let targetUrl = url.trim();
   if (!/^https?:\/\//i.test(targetUrl)) {
@@ -64,6 +67,8 @@ app.post('/scan', async (req, res) => {
       score = 0;
     }
 
+    console.log('Scan completed successfully');
+
     res.json({
       score,
       violations: results.violations.map(v => ({
@@ -83,7 +88,7 @@ app.post('/scan', async (req, res) => {
     });
   } catch (error) {
     if (browser) await browser.close();
-    console.error('Scan error:', error);
+    console.error('Scan failed:', error.message);
     res.status(500).json({ error: 'Failed to scan the URL. Ensure it is reachable.' });
   }
 });
