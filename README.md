@@ -64,15 +64,16 @@ The app should now be running on `http://localhost:5173`.
 ## Deployment
 
 ### Backend (Render)
-The backend is deployed on Render.
-1.  Create a Web Service on Render.
-2.  Connect your GitHub repo.
-3.  Set Build Command: `npm install`
-4.  Set Start Command: `node index.js`
+The backend is optimized for the Render free tier using **Browserless.io**.
+1.  Sign up at [Browserless.io](https://www.browserless.io/) and get an API Token.
+2.  Create a Web Service on Render (Standard Node runtime).
+3.  Set **Build Command**: `npm install`
+4.  Set **Start Command**: `node index.js` (or `npm start`)
+5.  Add **Environment Variable**: `BROWSERLESS_URL` = `wss://chrome.browserless.io?token=YOUR_TOKEN`
 
 ### Frontend (Vercel)
-The frontend is deployed on Vercel.
-1.  Import the `client` directory in Vercel.
-2.  Set Build Command: `npm run build`
-3.  Set Output Directory: `dist`
+The frontend is deployed on Vercel as a Vite application.
+1.  Connect your repository to Vercel.
+2.  Set **Framework Preset**: `Vite`
+3.  Add **Environment Variable**: `VITE_API_URL` = your Render service URL.
 4.  Deploy!
