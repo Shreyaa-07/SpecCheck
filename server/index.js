@@ -23,10 +23,12 @@ app.post('/scan', async (req, res) => {
 
   let browser;
   try {
-    browser = await puppeteer.launch({
-      headless: true,
-      args: ['--no-sandbox', '--disable-setuid-sandbox']
-    });
+    browser = process.env.BROWSERLESS_URL
+      ? await puppeteer.connect({ browserWSEndpoint: process.env.BROWSERLESS_URL })
+      : await puppeteer.launch({
+          headless: true,
+          args: ['--no-sandbox', '--disable-setuid-sandbox']
+        });
     const page = await browser.newPage();
     await page.goto(targetUrl, { waitUntil: 'networkidle2', timeout: 30000 });
     
